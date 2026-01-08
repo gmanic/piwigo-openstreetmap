@@ -312,7 +312,7 @@ function osm_get_js($conf, $local_conf, $js_data)
 
     /* If we have zoom and center coordinate, set it otherwise fallback default */
     if (isset($_GET['zoom'])) {
-        check_input_parameter('zoom', $_GET, false, '/^\d{1,2}$/',true);
+        check_input_parameter('zoom', $_GET, false, '/^1?\d$/',true);
         $zoom = $_GET['zoom'];
     }
     if (isset($_GET['center_lat'])) {
