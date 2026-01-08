@@ -309,16 +309,23 @@ function osm_get_js($conf, $local_conf, $js_data)
     $center_lat = isset($center_arr) ? $center_arr[0] : 0;
     $center_lng = isset($center_arr) ? $center_arr[1] : 0;
 
-    /* If we have zoom and center coordonate, set it otherwise fallback default */
-    $zoom = isset($_GET['zoom'])
-        ? $_GET['zoom']
-        : (
-            isset($local_conf['zoom'])
-                ? $local_conf['zoom']
-                : 2
-            );
-    $center_lat = isset($_GET['center_lat']) ? $_GET['center_lat'] : $center_lat;
-    $center_lng = isset($_GET['center_lng']) ? $_GET['center_lng'] : $center_lng;
+    /* If we have zoom and center coordinate, set it otherwise fallback default */
+    if (isset($_GET['zoom'])) {
+        check_input_parameter('zoom', $_GET, false, '/^\d{1-2}$/',true);
+        $zoom = $_GET['zoom'];
+    } else {
+        $zoom = isset($local_conf['zoom'])
+            ? $local_conf['zoom']
+            : 2;
+    }
+    if (isset($_GET['center_lat'])) {
+        check_input_parameter('center_lat', $_GET, false, '/^-?\d+(\.\d+)?$/',true);
+        $center_lat = $_GET['center_lat'];
+    }
+    if (isset($_GET['center_lng'])) {
+        check_input_parameter('center_lng', $_GET, false, '/^-?\d+(\.\d+)?$/',true);
+        $center_lng = isset($_GET['center_lng']) ? $_GET['center_lng'] : $center_lng;
+    }
 
     $autocenter = isset($local_conf['autocenter'])
         ? $local_conf['autocenter']
