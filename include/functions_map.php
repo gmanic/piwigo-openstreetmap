@@ -308,15 +308,12 @@ function osm_get_js($conf, $local_conf, $js_data)
     $center_arr = preg_split('/,/', $center);
     $center_lat = isset($center_arr) ? $center_arr[0] : 0;
     $center_lng = isset($center_arr) ? $center_arr[1] : 0;
+    $zoom = isset($conf['osm_conf']['left_menu']['zoom']) ? $conf['osm_conf']['left_menu']['zoom'] : 2;
 
     /* If we have zoom and center coordinate, set it otherwise fallback default */
     if (isset($_GET['zoom'])) {
-        check_input_parameter('zoom', $_GET, false, '/^\d{1-2}$/',true);
+        check_input_parameter('zoom', $_GET, false, '/^\d{1,2}$/',true);
         $zoom = $_GET['zoom'];
-    } else {
-        $zoom = isset($local_conf['zoom'])
-            ? $local_conf['zoom']
-            : 2;
     }
     if (isset($_GET['center_lat'])) {
         check_input_parameter('center_lat', $_GET, false, '/^-?\d+(\.\d+)?$/',true);
